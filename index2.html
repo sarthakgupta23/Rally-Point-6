@@ -32,11 +32,23 @@ function openCvReady() {
     let faceCascadeFile = 'yes.xml'; // path to xml
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
     classifier.load(faceCascadeFile); // in the callback, load the cascade from file 
+     document.addEventListener('keyup',e=>{
+        console.log(e.which);
+    })
+ function keypress(key){
+        document.dispatchEvent(
+            new KeyboardEvent("keyup", {
+                keyCode: key,
+                which: key,
+            })
+        );
+      }
 });
     const FPS = 30;
     function processVideo() {
         let begin = Date.now();
         cap.read(src);
+        cv.flip(src,src,1);
         src.copyTo(dst);
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
         try{
@@ -50,6 +62,35 @@ function openCvReady() {
             let point1 = new cv.Point(face.x, face.y);
             let point2 = new cv.Point(face.x + face.width, face.y + face.height);
             cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
+            let x1=100;
+            let y1=100;
+            let x=face.x;
+            let y=face.y;
+            if(Math.abs(x1-x)>=50){
+            if(x1>x){
+                
+                
+               keypress(39);
+          }  
+               
+            else{
+               
+                
+                keypress(37);
+          } 
+
+       } 
+               
+        elif((y1-y)>=50){
+                 
+            keypress(40); 
+       } 
+        else{
+             
+             keypress(38);  
+
+       }
+
         }
         cv.imshow("canvas_output", dst);
         // schedule next one.
