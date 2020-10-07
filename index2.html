@@ -69,15 +69,11 @@ function openCvReady() {
             let y=face.y;
             cv.rectangle(dst,new cv.Point(x1,y1),new cv.Point(20+x1,y1+20), [255, 0, 0, 255]);
             if(Math.abs(x1-x)>=50){
-              if(x1>x){
-                
-                
+              if(x1>x){                
                keypress(39);
               }  
-               
+
               else{
-               
-                
                 keypress(37);
              } 
 
