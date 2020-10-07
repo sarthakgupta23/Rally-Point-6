@@ -62,34 +62,36 @@ function openCvReady() {
             let point1 = new cv.Point(face.x, face.y);
             let point2 = new cv.Point(face.x + face.width, face.y + face.height);
             cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
+            
             let x1=100;
-            let y1=100;
+            let y1=200;
             let x=face.x;
             let y=face.y;
+            cv.rectangle(dst,new cv.Point(x1,y1),new cv.Point(20+x1,y1+20), [255, 0, 0, 255]);
             if(Math.abs(x1-x)>=50){
-            if(x1>x){
+              if(x1>x){
                 
                 
                keypress(39);
-          }  
+              }  
                
-            else{
+              else{
                
                 
                 keypress(37);
+             } 
+
           } 
-
-       } 
                
-        elif((y1-y)>=50){
+            elif((y1-y)>=50){
                  
-            keypress(40); 
-       } 
-        else{
+               keypress(40); 
+            } 
+            else{
              
-             keypress(38);  
+              keypress(38);  
 
-       }
+            }
 
         }
         cv.imshow("canvas_output", dst);
