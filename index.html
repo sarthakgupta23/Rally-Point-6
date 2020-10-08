@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <video id="cam_input" height="480" width="64git 0"></video>
+    <video id="cam_input" height="480" width="640"></video>
     <canvas id="canvas_output"></canvas>
+    
+    <div id="frame">
 
-    <iframe src="racing-game/index.html" id="game-container">
+    </div>
+    <!-- <iframe src="racing-game/index.html" id="game-container"> -->
 </body>
 <script type="text/JavaScript">
-window.openCvReady=function() {
+
+function openCvReady() {
+
   cv['onRuntimeInitialized']=()=>{
     let video = document.getElementById("cam_input"); // video is the id of video tag
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
@@ -34,7 +39,8 @@ window.openCvReady=function() {
     let faceCascadeFile = 'yes.xml'; // path to xml
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
     classifier.load(faceCascadeFile); // in the callback, load the cascade from file 
-     document.addEventListener('keyup',e=>{
+});
+document.addEventListener('keyup',e=>{
         console.log(e.which);
     })
  function keypress(key){
@@ -45,12 +51,10 @@ window.openCvReady=function() {
             })
         );
       }
-});
     const FPS = 30;
     function processVideo() {
         let begin = Date.now();
         cap.read(src);
-        cv.flip(src,src,1);
         src.copyTo(dst);
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
         try{
@@ -65,27 +69,36 @@ window.openCvReady=function() {
             let point2 = new cv.Point(face.x + face.width, face.y + face.height);
             cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
             let x1=100;
-            let y1=100;
+            let y1=200;
             let x=face.x;
             let y=face.y;
+            cv.rectangle(dst,new cv.Point(x1,y1),new cv.Point(20+x1,y1+20), [255, 0, 0, 255]);
             if(Math.abs(x1-x)>=50){
-            if(x1>x){
+              if(x1>x){
+                
+                
                keypress(39);
-          }  
+              }  
                
-            else{
+              else{
+               
+                
                 keypress(37);
+             } 
+
           } 
-
-       } 
                
-        else if((y1-y)>=50){
-            keypress(40); 
-        } 
-        else{
-            keypress(38);
-        }
+            else if ((y1-y)>=50){
+                 
+               keypress(40); 
+            } 
+            else{
+             
+              keypress(38);  
 
+            }
+
+        
         }
         cv.imshow("canvas_output", dst);
         // schedule next one.
@@ -95,9 +108,17 @@ window.openCvReady=function() {
 // schedule first one.
 setTimeout(processVideo, 0);
   };
+  const frameSelector = document.querySelector('#frame');
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute("id","game-container");
+  iframe.setAttribute("src","racing-game/index.html");
+  frameSelector.appendChild(iframe);
+  
+  const el = document.querySelector('#game-container');
+  el.focus();
 }
+
 </script>
 
 <script src="opencv.js" onload="openCvReady()"></script>
-</html> 
- 
+</html>
