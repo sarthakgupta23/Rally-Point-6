@@ -479,6 +479,7 @@ function keyHandler (e) {
 		keys[keyCodes[e.keyCode]] = e.type === 'keydown';
 		e.preventDefault();
 	}
+
 }
 
 /*
