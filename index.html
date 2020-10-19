@@ -44,20 +44,25 @@
   // })
   
     function keypress(key){
-      // document.querySelector("#game-container").dispatchEvent(
-      //       new KeyboardEvent("keydown", {
-      //           keyCode: key,
-      //           which: key,
-      //       })
-      // );
-
       console.log(key);
-  
       var iframe = document.querySelector('#game-container');
       var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 
       innerDoc.querySelector(".track-body").dispatchEvent(
             new KeyboardEvent("keydown", {
+                keyCode: key,
+                which: key,
+            })
+      );
+  
+    }
+
+    function keyrelease(key){
+      var iframe = document.querySelector('#game-container');
+      var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      innerDoc.querySelector(".track-body").dispatchEvent(
+            new KeyboardEvent("keyup", {
                 keyCode: key,
                 which: key,
             })
@@ -77,6 +82,11 @@
           }catch(err){
               console.log(err);
           }
+
+          let lastkey=0;
+
+          if(lastkey) keyrelease(lastkey);
+
           cv.rectangle(dst,new cv.Point(x1,y1),new cv.Point(70+x1,70+y1), [255, 255, 0, 255]);
           for (let i = 0; i < faces.size(); ++i) {
               let face = faces.get(i);
@@ -92,22 +102,23 @@
                   
                   
                  keypress(37);
+                 lastkey=37;
                 }  
                  
                 else{
                  
-                  
+                  lastkey=39;
                   keypress(39);
                } 
   
             } 
                  
               else if ((y-y1)>=50){
-                   
+                lastkey=40;
                  keypress(40); 
               } 
               else{
-               
+                lastkey=38;
                 keypress(38);  
   
               }
